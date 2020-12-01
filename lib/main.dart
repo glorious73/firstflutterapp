@@ -3,7 +3,6 @@ import 'package:english_words/english_words.dart';
 
 void main() => runApp(MyApp());
 
-// Finished part 1
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -18,6 +17,7 @@ class RandomWords extends StatefulWidget {
 
 class _RandomWordsState extends State<RandomWords> {
   final List<WordPair> _suggestions = <WordPair>[];
+  final Set<WordPair> _saved = Set<WordPair>();
   final TextStyle _biggerFont = TextStyle(fontSize: 18.0);
   @override
   Widget build(BuildContext context) {
@@ -44,11 +44,21 @@ class _RandomWordsState extends State<RandomWords> {
   }
 
   Widget _buildRow(WordPair pair) {
+    final bool isAlreadySaved = _saved.contains(pair);
     return ListTile(
-      title: Text(
-        pair.asPascalCase,
-        style: _biggerFont,
-      ),
-    );
+        title: Text(pair.asPascalCase, style: _biggerFont),
+        trailing: Icon(
+            // NEW from here...
+            isAlreadySaved ? Icons.favorite : Icons.favorite_border,
+            color: isAlreadySaved ? Colors.red : null),
+        onTap: () {
+          // NEW lines from here...
+          setState(() {
+            if (isAlreadySaved)
+              _saved.remove(pair);
+            else
+              _saved.add(pair);
+          });
+        });
   }
 }
