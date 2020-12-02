@@ -40,7 +40,6 @@ class _RandomWordsState extends State<RandomWords> {
   void _pushSaved() {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
-        // NEW lines from here...
         builder: (BuildContext context) {
           final Iterable<ListTile> tiles = _saved.map(
             (WordPair pair) {
@@ -63,7 +62,6 @@ class _RandomWordsState extends State<RandomWords> {
             ),
             body: ListView(children: divided),
           );
-        }, // ...to here.
       ),
     );
   }
@@ -71,12 +69,12 @@ class _RandomWordsState extends State<RandomWords> {
   Widget _buildSuggestions() {
     return ListView.builder(
         padding: EdgeInsets.all(16.0),
-        itemBuilder: /*1*/ (context, i) {
-          if (i.isOdd) return Divider(); /*2*/
+        itemBuilder: (context, i) {
+          if (i.isOdd) return Divider();
 
-          final index = i ~/ 2; /*3*/
+          final index = i ~/ 2;
           if (index >= _suggestions.length) {
-            _suggestions.addAll(generateWordPairs().take(10)); /*4*/
+            _suggestions.addAll(generateWordPairs().take(10));
           }
           return _buildRow(_suggestions[index]);
         });
@@ -86,12 +84,9 @@ class _RandomWordsState extends State<RandomWords> {
     final bool isAlreadySaved = _saved.contains(pair);
     return ListTile(
         title: Text(pair.asPascalCase, style: _biggerFont),
-        trailing: Icon(
-            // NEW from here...
-            isAlreadySaved ? Icons.favorite : Icons.favorite_border,
+        trailing: Icon(isAlreadySaved ? Icons.favorite : Icons.favorite_border,
             color: isAlreadySaved ? Colors.red : null),
         onTap: () {
-          // NEW lines from here...
           setState(() {
             if (isAlreadySaved)
               _saved.remove(pair);
